@@ -2,3 +2,5 @@ venv
 __pycache__
 config/.env
 model/*
+notes.txt
+data/*
