@@ -24,3 +24,17 @@ class DeviceInfo(Resource):
         except Exception as e:
             print('\033[31m' + 'Exception in get function of DeviceInfo class', str(e), sep='\n', end='\033[0m\n')
             return jsonify({'message': 'Error while fetching records', 'error': True, 'data': None})
+
+
+
+class DeviceList(Resource):
+    
+    def get(self):
+
+        try:
+            records = mongo.db.devices.find()
+            output = [record for record in records]
+            return jsonify({'message': 'Records fetched successfully!', 'error': False, 'data': output})
+        except Exception as e:
+            print('\033[31m' + 'Exception in get function of DeviceList class', str(e), sep='\n', end='\033[0m\n')
+            return jsonify({'message': 'Error while fetching records', 'error': True, 'data': None})
