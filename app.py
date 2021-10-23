@@ -27,7 +27,7 @@ CORS(app)
 
 from module import utils
 from module.data_store import BulkImport
-from module.device import DeviceInfo, DeviceList
+from module.device import Device, DeviceReading, DeviceList
 
 # utils.load_dataset()
 
@@ -37,7 +37,8 @@ def root():
 
 
 api.add_resource(BulkImport, '/import-data')
-api.add_resource(DeviceInfo, '/device')
+api.add_resource(Device, '/device')
+api.add_resource(DeviceReading, '/device/reading')
 api.add_resource(DeviceList, '/list/device')
 
 if __name__ == '__main__':
