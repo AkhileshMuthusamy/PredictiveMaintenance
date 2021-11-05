@@ -12,6 +12,10 @@ import os
 env_path = Path('.') / 'config/.env'
 load_dotenv(dotenv_path=env_path)
 
+import pickle
+file_name = "xgb_reg.pkl"
+xgb_model = pickle.load(open('./model/'+file_name, "rb"))
+
 class CustomJSONEncoder(JSONEncoder):
     def default(self, obj): 
         return json_util.default(obj)
@@ -24,8 +28,6 @@ mongo = PyMongo(app)
 api = Api(app)
 CORS(app)
 
-
-from module import utils
 from module.data_store import BulkImport
 from module.device import Device, DeviceReading, DeviceList
 
