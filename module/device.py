@@ -8,6 +8,8 @@ from module import utils
 
 parser = reqparse.RequestParser()
 
+MAINTENANCE_THRESHOLD = 50
+
 
 class Device(Resource):
 
@@ -30,12 +32,11 @@ class Device(Resource):
 
     def post(self):
         parser.add_argument('device_name', type=str)
-        parser.add_argument('id', type=int)
         args = parser.parse_args()
 
         try:
             if args['device_name']:
-                mongo.db.devices.insert_one({'id': args['id'], 'name': args['device_name']})
+                mongo.db.devices.insert_one({'name': args['device_name'], 'rul': None, 'status': 0})
                 return jsonify({'message': 'Device added successfully!', 'error': False, 'data': None})
             else:
                 return jsonify({'message': 'Missing field \'device_name\'', 'error': True, 'data': None})
@@ -80,6 +81,8 @@ class DeviceReading(Resource):
                 sensor_readings = dict(args)
                 sensor_readings['rul'] = round(float(rul))
                 print(sensor_readings)
+                need_maintenance = 1 if sensor_readings['rul'] < MAINTENANCE_THRESHOLD else 0
+                mongo.db.devices.update_one({'deviceId': args['id']}, {'$set': {'rul': sensor_readings['rul'], 'status': need_maintenance}})
                 mongo.db.sensor_values.insert_one(sensor_readings)
                 return jsonify({'message': 'Sensor values stored successfully!', 'error': False, 'data': None})
             else:
