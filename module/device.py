@@ -8,6 +8,8 @@ from module import utils
 
 parser = reqparse.RequestParser()
 
+MAINTENANCE_THRESHOLD = 50
+
 
 class Device(Resource):
 
@@ -80,6 +82,8 @@ class DeviceReading(Resource):
                 sensor_readings = dict(args)
                 sensor_readings['rul'] = round(float(rul))
                 print(sensor_readings)
+                need_maintenance = 1 if sensor_readings['rul'] < MAINTENANCE_THRESHOLD else 0
+                mongo.db.devices.update_one({'deviceId': args['id']}, {'$set': {'rul': sensor_readings['rul'], 'status': need_maintenance}})
                 mongo.db.sensor_values.insert_one(sensor_readings)
                 return jsonify({'message': 'Sensor values stored successfully!', 'error': False, 'data': None})
             else:
