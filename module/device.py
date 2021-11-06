@@ -3,6 +3,8 @@ from flask_restful import Resource, reqparse
 
 from app import mongo
 
+from module import utils
+
 
 parser = reqparse.RequestParser()
 
@@ -61,6 +63,30 @@ class DeviceReading(Resource):
             print('\033[31m' + 'Exception in get function of DeviceInfo class', str(e), sep='\n', end='\033[0m\n')
             return jsonify({'message': 'Error while fetching records', 'error': True, 'data': None})
 
+
+    def post(self):
+        parser.add_argument('id', type=int)
+        for i in range(1, 22):
+            parser.add_argument('sn_'+ str(i), type=float)
+        for i in range(1, 4):
+            parser.add_argument('cond_'+ str(i), type=float)
+        args = parser.parse_args()
+
+        # print(args)
+
+        try:
+            if args['id']:
+                rul = utils.predict_rul(args)
+                sensor_readings = dict(args)
+                sensor_readings['rul'] = round(float(rul))
+                print(sensor_readings)
+                mongo.db.sensor_values.insert_one(sensor_readings)
+                return jsonify({'message': 'Sensor values stored successfully!', 'error': False, 'data': None})
+            else:
+                return jsonify({'message': 'Missing field \'id\'', 'error': True, 'data': None})
+        except Exception as e:
+            print('\033[31m' + 'Exception in POST function of DeviceReading class', str(e), sep='\n', end='\033[0m\n')
+            return jsonify({'message': 'Error while storing records', 'error': True, 'data': None})
 
 
 class DeviceList(Resource):
