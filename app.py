@@ -38,7 +38,7 @@ def root():
     return 'API is up and running...!'
 
 
-api.add_resource(BulkImport, '/import-data')
+# api.add_resource(BulkImport, '/import-data')
 api.add_resource(Device, '/device')
 api.add_resource(DeviceReading, '/device/reading')
 api.add_resource(DeviceList, '/list/device')

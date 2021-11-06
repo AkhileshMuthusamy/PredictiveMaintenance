@@ -32,12 +32,11 @@ class Device(Resource):
 
     def post(self):
         parser.add_argument('device_name', type=str)
-        parser.add_argument('id', type=int)
         args = parser.parse_args()
 
         try:
             if args['device_name']:
-                mongo.db.devices.insert_one({'id': args['id'], 'name': args['device_name']})
+                mongo.db.devices.insert_one({'name': args['device_name'], 'rul': None, 'status': 0})
                 return jsonify({'message': 'Device added successfully!', 'error': False, 'data': None})
             else:
                 return jsonify({'message': 'Missing field \'device_name\'', 'error': True, 'data': None})
