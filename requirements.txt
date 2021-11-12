@@ -21,7 +21,6 @@ idna==2.10
 itsdangerous==1.1.0
 Jinja2==2.11.3
 joblib==1.0.1
-Keras-Preprocessing==1.1.2
 Markdown==3.3.4
 MarkupSafe==1.1.1
 numpy==1.19.5
@@ -42,10 +41,6 @@ rsa==4.7.2
 scikit-learn==1.0.1
 scipy==1.7.1
 six==1.15.0
-tensorboard==2.4.1
-tensorboard-plugin-wit==1.8.0
-tensorflow==2.4.1
-tensorflow-estimator==2.4.0
 termcolor==1.1.0
 threadpoolctl==3.0.0
 tqdm==4.59.0
