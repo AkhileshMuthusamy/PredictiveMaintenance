@@ -54,7 +54,7 @@ class DeviceReading(Resource):
 
         try:
             if args['id']:
-                records = mongo.db.sensor_readings.find({'engine_no': args['id']})
+                records = mongo.db.sensor_values.find({'id': args['id']})
                 output = [record for record in records]
                 return jsonify({'message': 'Records fetched successfully!', 'error': False, 'data': output})
             else:
