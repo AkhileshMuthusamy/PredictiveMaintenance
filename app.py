@@ -28,7 +28,6 @@ mongo = PyMongo(app)
 api = Api(app)
 CORS(app)
 
-from module.data_store import BulkImport
 from module.device import Device, DeviceReading, DeviceList
 from module.dashboard_stats import DashboardStats
 
@@ -38,8 +37,6 @@ from module.dashboard_stats import DashboardStats
 def root():
     return 'API is up and running...!'
 
-
-# api.add_resource(BulkImport, '/import-data')
 api.add_resource(Device, '/device')
 api.add_resource(DashboardStats, '/dashboard-stats')
 api.add_resource(DeviceReading, '/device/reading')
