@@ -44,6 +44,21 @@ class Device(Resource):
             print('\033[31m' + 'Exception in POST function of Device class', str(e), sep='\n', end='\033[0m\n')
             return jsonify({'message': 'Error while storing records', 'error': True, 'data': None})
 
+    def put(self):
+        parser.add_argument('id', type=int)
+        parser.add_argument('name', type=str)
+        args = parser.parse_args()
+
+        try:
+            if args['id'] and args['name']:
+                mongo.db.devices.update_one({'deviceId': args['id']}, {'$set': {'name': args['name']}})
+                return jsonify({'message': 'Device updated successfully!', 'error': False, 'data': None})
+            else:
+                return jsonify({'message': 'Missing field \'id\' or \'name\'', 'error': True, 'data': None})
+        except Exception as e:
+            print('\033[31m' + 'Exception in PUT function of Device class', str(e), sep='\n', end='\033[0m\n')
+            return jsonify({'message': 'Error while storing records', 'error': True, 'data': None})
+
 
 class DeviceReading(Resource):
 
