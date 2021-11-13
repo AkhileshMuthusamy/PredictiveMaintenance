@@ -20,7 +20,7 @@ class Device(Resource):
 
         try:
             if args['id']:
-                records = mongo.db.devices.find({'id': args['id']})
+                records = mongo.db.devices.find({'deviceId': args['id']})
                 output = [record for record in records]
                 return jsonify({'message': 'Records fetched successfully!', 'error': False, 'data': output})
             else:
