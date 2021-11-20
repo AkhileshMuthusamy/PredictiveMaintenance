@@ -88,14 +88,11 @@ class DeviceReading(Resource):
             parser.add_argument('cond_'+ str(i), type=float)
         args = parser.parse_args()
 
-        # print(args)
-
         try:
             if args['id']:
                 rul = utils.predict_rul(args)
                 sensor_readings = dict(args)
                 sensor_readings['rul'] = round(float(rul))
-                print(sensor_readings)
                 need_maintenance = 1 if sensor_readings['rul'] < MAINTENANCE_THRESHOLD else 0
                 mongo.db.devices.update_one({'deviceId': args['id']}, {'$set': {'rul': sensor_readings['rul'], 'status': need_maintenance}})
                 mongo.db.sensor_values.insert_one(sensor_readings)
