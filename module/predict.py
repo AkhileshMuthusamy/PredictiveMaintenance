@@ -6,17 +6,15 @@ from flask_restful import Resource, reqparse
 from werkzeug.datastructures import FileStorage
 
 from module import utils
+from config._global import Config
 
 MAINTENANCE_THRESHOLD = 50
 
 parser = reqparse.RequestParser()
 
-_filetype = {
-    'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    'txt': 'text/plain'
-}
 
-class PredictFromExcel(Resource):
+
+class PredictFromFile(Resource):
 
     def post(self):
         parser.add_argument('id', type=int)
@@ -26,7 +24,7 @@ class PredictFromExcel(Resource):
         try:
             if args['id'] and args['file']:
 
-                if args['file'].mimetype == _filetype['xlsx']:
+                if args['file'].mimetype == Config.FILETYPE['xlsx']:
                     df = pd.read_excel(args['file'].stream.read())
                     rul = utils.multi_predict_rul(df)
                     df['rul'] = np.round_(rul).astype(int)
