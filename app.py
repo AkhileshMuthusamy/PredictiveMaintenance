@@ -21,6 +21,7 @@ from module.dashboard_stats import DashboardStats
 from module.device import Device, DeviceList, DeviceReading
 from module.predict import PredictFromFile
 from module.smoothing import SmoothPredictionGraph
+from module.settings import Settings
 
 
 @app.route('/')
@@ -33,6 +34,7 @@ api.add_resource(DeviceReading, '/device/reading')
 api.add_resource(DeviceList, '/list/device')
 api.add_resource(PredictFromFile, '/predict/file')
 api.add_resource(SmoothPredictionGraph, '/predict/smooth')
+api.add_resource(Settings, '/settings')
 
 if __name__ == '__main__':
     app.run(use_reloader=True)
