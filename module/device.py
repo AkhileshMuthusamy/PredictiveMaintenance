@@ -60,6 +60,23 @@ class Device(Resource):
             return jsonify({'message': 'Error while storing records', 'error': True, 'data': None})
 
 
+
+    def delete(self):
+        parser.add_argument('id', type=int)
+        args = parser.parse_args()
+
+        try:
+            if args['id']:
+                mongo.db.devices.delete_one({'deviceId': args['id']})
+                mongo.db.sensor_values.delete_many({'id': args['id']})
+                return jsonify({'message': 'Device deleted successfully!', 'error': False, 'data': None})
+            else:
+                return jsonify({'message': 'Missing field \'id\' or \'name\'', 'error': True, 'data': None})
+        except Exception as e:
+            print('\033[31m' + 'Exception in DELETE function of Device class', str(e), sep='\n', end='\033[0m\n')
+            return jsonify({'message': 'Error while deleting records', 'error': True, 'data': None})
+
+
 class DeviceReading(Resource):
 
 
