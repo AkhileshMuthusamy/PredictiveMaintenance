@@ -50,7 +50,12 @@ class PredictFromFile(Resource):
                     current_rul = df.iloc[-1:,:]['rul'].values[0]
                     need_maintenance = 1 if current_rul < MAINTENANCE_THRESHOLD else 0
                     # print(current_rul, need_maintenance)
-                    mongo.db.devices.update_one({'deviceId': args['id']}, {'$set': {'rul': int(current_rul), 'status': need_maintenance}})
+                    mongo.db.devices.update_one(
+                        {'deviceId': args['id']}, 
+                        {
+                            '$set': {'rul': int(current_rul), 'status': need_maintenance}, 
+                            '$inc': {'cycle_ran': len(rul)}
+                        })
                     mongo.db.sensor_values.insert_many(list(df[valid_columns].T.to_dict().values()))
                 else:
                     return jsonify({'message': 'Invalid file type', 'error': True, 'data': None})
