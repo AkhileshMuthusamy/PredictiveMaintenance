@@ -36,7 +36,7 @@ class Device(Resource):
 
         try:
             if args['device_name']:
-                mongo.db.devices.insert_one({'name': args['device_name'], 'rul': None, 'status': 0})
+                mongo.db.devices.insert_one({'name': args['device_name'], 'rul': None, 'cycle_ran': 0, 'status': 0})
                 return jsonify({'message': 'Device added successfully!', 'error': False, 'data': None})
             else:
                 return jsonify({'message': 'Missing field \'device_name\'', 'error': True, 'data': None})
