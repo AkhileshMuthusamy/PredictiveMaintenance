@@ -1,0 +1,25 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "type": "shell",
+        "command": "",
+        "label": "Development Environment",
+        "group": "none",
+        "presentation": {
+          "reveal": "always",
+          "panel": "new"
+        },
+        "options": {
+          "shell": {
+            "executable": "cmd.exe",
+            "args": ["/K", "venv\\Scripts\\activate.bat && set FLASK_ENV=development"]
+          }
+        },
+        "isBackground": true,
+        "runOptions": {
+          "runOn": "folderOpen"
+        }
+      }
+    ]
+  }
