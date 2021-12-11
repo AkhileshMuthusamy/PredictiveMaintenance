@@ -14,7 +14,7 @@ class SmoothPredictionGraph(Resource):
 
         try:
             if args['id']:
-                records = mongo.db.sensor_values.find({'id': args['id']})
+                records = mongo.db.sensor_values.find({'id': args['id']}).sort("_id", 1)
                 output = [record['rul'] for record in records]
                 smoothed_output = gaussian_filter1d(output, sigma=5)
                 return jsonify({'message': 'Records fetched successfully!', 'error': False, 'data': {'rul': output, 'smoothRul': list(smoothed_output)}})
